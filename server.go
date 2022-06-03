@@ -84,11 +84,16 @@ func shrinkHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	port := os.Getenv("PORT")
+	if port == "" {
+		log.Fatal("$PORT must be set")
+	}
+
 	http.HandleFunc("/hello", helloHandler)
 	http.HandleFunc("/shrink", shrinkHandler)
 
-	fmt.Printf("Starting server on port 8080\n")
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	fmt.Printf("Starting server on port %s\n", port)
+	if err := http.ListenAndServe(":%s"+port, nil); err != nil {
 		log.Fatal(err)
 	}
 }
