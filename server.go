@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"log"
@@ -52,13 +53,25 @@ func shrinkHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	imageBuffer := bytes.NewBuffer(nil)
+	if _, err := io.Copy(imageBuffer, file); err != nil {
+		http.Error(w, "An internal error occurred: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	filetype := http.DetectContentType(imageBuffer.Bytes())
+	if filetype != "image/jpeg" && filetype != "image/png" {
+		http.Error(w, "The provided file format is not allowed. Please upload a JPEG or PNG image", http.StatusBadRequest)
+		return
+	}
+
 	err = os.MkdirAll(TMP_FILE_DIRECTORY, 0700)
 	if err != nil {
 		http.Error(w, "An internal error occurred: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	tmpFilePath := fmt.Sprintf("./tmp/uploads/%d%s", time.Now().Unix(), h.Filename)
+	tmpFilePath := fmt.Sprintf("./tmp/uploads/%d%s", time.Now().UnixNano(), h.Filename)
 	tmpFile, err := os.Create(tmpFilePath)
 	if err != nil {
 		http.Error(w, "An internal error occurred: "+err.Error(), http.StatusInternalServerError)
