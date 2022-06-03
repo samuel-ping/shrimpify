@@ -1,6 +1,8 @@
 # Shrimpify
 
-Image file size optimization server. Named after my _Echeveria fleur blanc_ Shrimp.
+Image file size optimization server. Using this for my [PlantFam](https://github.com/samuel-ping/PlantFam-Android) Android app.
+
+Named after my _Echeveria fleur blanc_ Shrimp.
 
 ## Setup
 
