@@ -2,7 +2,7 @@
 
 Image file size optimization server. Using this for my [PlantFam](https://github.com/samuel-ping/PlantFam-Android) Android app.
 
-Named after my _Echeveria fleur blanc_ Shrimp.
+Named after my _Echeveria fleur blanc_ succulent, Shrimp.
 
 ## Setup
 
