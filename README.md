@@ -1,7 +1,5 @@
 # Shrimpify
 
-### You're on the heroku branch. This branch contains the vendor/ directory with the dependencies this application uses installed in it.
-
 Image file size optimization server. Using this for my [PlantFam](https://github.com/samuel-ping/PlantFam-Android) Android app.
 
 Named after my _Echeveria fleur blanc_ succulent, Shrimp.
@@ -16,5 +14,4 @@ Named after my _Echeveria fleur blanc_ succulent, Shrimp.
 
 ### Heroku
 
-- Using the Aptfile buildpack to install `libvips` package in Heroku server.
-- When pushing an update from the heroku branch (hosted on GitHub) to the main branch (hosted on Heroku), run `git push heroku heroku:main`
+- Using the Aptfile buildpack to install `libvips` package in Heroku server (see instructions on installing on Ubuntu a few bullet points above).
