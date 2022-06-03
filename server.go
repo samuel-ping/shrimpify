@@ -12,18 +12,13 @@ import (
 const TMP_FILE_DIRECTORY = "./tmp/uploads"
 const COMPRESSED_QUALITY = 40
 
-func helloHandler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/hello" {
+func homeHandler(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/" {
 		http.Error(w, "404 not found.", http.StatusNotFound)
 		return
 	}
 
-	if r.Method != "GET" {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		return
-	}
-
-	fmt.Fprintf(w, "Hello, world!")
+	fmt.Fprintf(w, "Welcome to Shrimpify!\n\nTo use me, simply send a POST request with an \"image\" field containing a JPEG or PNG image and we will compress it for you.")
 }
 
 func shrinkHandler(w http.ResponseWriter, r *http.Request) {
@@ -89,7 +84,7 @@ func main() {
 		log.Fatal("$PORT must be set")
 	}
 
-	http.HandleFunc("/hello", helloHandler)
+	http.HandleFunc("/", homeHandler)
 	http.HandleFunc("/shrink", shrinkHandler)
 
 	fmt.Printf("Starting server on port %s\n", port)
