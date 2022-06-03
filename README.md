@@ -1,6 +1,6 @@
 # Shrimpify
 
-Image file size optimization server.
+Image file size optimization server. Named after my _Echeveria fleur blanc_ Shrimp.
 
 ## Setup
 
