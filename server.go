@@ -7,10 +7,10 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"time"
 )
 
 const TMP_FILE_DIRECTORY = "./tmp/uploads"
+const COMPRESSED_QUALITY = 40
 
 func helloHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/hello" {
@@ -71,20 +71,15 @@ func shrinkHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tmpFilePath := fmt.Sprintf("./tmp/uploads/%d%s", time.Now().UnixNano(), h.Filename)
-	tmpFile, err := os.Create(tmpFilePath)
-	if err != nil {
-		http.Error(w, "An internal error occurred: "+err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer tmpFile.Close()
-
-	_, err = io.Copy(tmpFile, file)
+	processedImageFilePath, err := processImage(imageBuffer.Bytes(), h.Filename, COMPRESSED_QUALITY, TMP_FILE_DIRECTORY)
 	if err != nil {
 		http.Error(w, "An internal error occurred: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
+	http.ServeFile(w, r, processedImageFilePath)
+
+	// TODO: delete stored file
 }
 
 func main() {
