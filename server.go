@@ -71,15 +71,16 @@ func shrinkHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	processedImageFilePath, err := processImage(imageBuffer.Bytes(), h.Filename, COMPRESSED_QUALITY, TMP_FILE_DIRECTORY)
+	processedImageBuffer, err := processImage(imageBuffer.Bytes(), COMPRESSED_QUALITY)
 	if err != nil {
 		http.Error(w, "An internal error occurred: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	http.ServeFile(w, r, processedImageFilePath)
-
-	// TODO: delete stored file
+	w.Header().Set("Content-Type", "image/webp")
+	w.Header().Set("Content-Length", fmt.Sprintf("%d", len(processedImageBuffer)))
+	w.Header().Set("Content-Disposition", fmt.Sprintf("attachment; filename=\"converted-%s\"", h.Filename))
+	w.Write(processedImageBuffer)
 }
 
 func main() {
